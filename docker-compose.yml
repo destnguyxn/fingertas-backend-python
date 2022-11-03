@@ -4,7 +4,8 @@ services:
   fingertas:
     restart: always
     build: .
-    restart: always
+    environment:
+      - RMQ_HOST=localhost
     ports:
       - "8080:8080"
   rabbitmq:
