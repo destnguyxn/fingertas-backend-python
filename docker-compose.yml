@@ -2,7 +2,15 @@ version: '3.3'
 
 services:
   fingertas:
+    restart: always
     build: .
     restart: always
     ports:
       - "8080:8080"
+  rabbitmq:
+    restart: always
+    image: rabbitmq:3.10-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"

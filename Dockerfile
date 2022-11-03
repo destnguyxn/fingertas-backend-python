@@ -1,11 +1,12 @@
 FROM python
 
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
 WORKDIR /fingertas
 
 COPY . ./
 
 RUN pip install -r requirements.txt
 
-EXPOSE 8080
-
-ENTRYPOINT python test.py
+ENTRYPOINT python app.py

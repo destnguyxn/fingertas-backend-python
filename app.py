@@ -26,6 +26,7 @@ def listenEvent():
                 # implement here timeout logic
                 pass
             else:
+                print('[New Event] --------')
                 data = {
                     'fingerId': attendance.user_id,
                     'timestamp': attendance.timestamp.strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
@@ -40,9 +41,10 @@ def listenEvent():
 
                 # new method send a message to message queue
                 print(attendance)
+                print('Try connecting to message queue server...')
                 connection = pika.BlockingConnection(
                 pika.ConnectionParameters(
-                    'localhost',
+                    'rabbitmq',
                     5672,
                     '/',
                     pika_credentials
@@ -62,14 +64,16 @@ def listenEvent():
                     ),
                 )
                 connection.close()
+                print('Request message queue done.')
 
     except Exception as e:
         print ("Process terminate : {}".format(e))
     finally:
         if conn:
-            is_run_flag = False
             conn.disconnect()
             connection.close()
+            is_run_flag = False
+            print('Stop all connection, waiting to restart...')
 
 while 1:
     if (is_run_flag == False):
